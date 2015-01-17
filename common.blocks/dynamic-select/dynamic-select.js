@@ -1,17 +1,19 @@
-modules.define('i-bem__dom', ['BEMHTML', 'jquery'], function(provide, BEMHTML, $, BEMDOM) {
+// до этого использовалась устаревшая форма декларации модуля, правильно декларировать вот так:
+modules.define('dynamic-select', ['i-bem__dom', 'BEMHTML'], function(provide, BEMDOM, BEMHTML) {
 
-    BEMDOM.decl('dynamic-select', {
+    provide(BEMDOM.decl(this.name, {
 
         onSetMod: {
             'js': {
                 'inited': function() {
-                    var inner = $(this.findElem('inner')[0]);
+                    var inner = this.elem('inner'); // метод elem() кэширующий, поэтому его использовать предпочтительнее, чем findElem()
 
                     BEMDOM.replace(inner, BEMHTML.apply(this.createTagSelectTemplate()));
 
+                    // в этом нет необходимости, блок автоматически инициализируется, когда его кнопка получит фокус
                     // In order to initialize JS on select after its dynamic creation
-                    var select = this.findBlockInside('select');
-                    select.findElem('inner');
+                    // var select = this.findBlockInside('select');
+                    // select.findElem('inner');
                 }
             }
         },
@@ -27,11 +29,9 @@ modules.define('i-bem__dom', ['BEMHTML', 'jquery'], function(provide, BEMHTML, $
                     { val : 'none', text : 'None' }
                 ],
                 text: 'Placeholder...'
-            }
+            };
         }
 
-    });
-
-    provide(BEMDOM);
+    }));
 
 });
