@@ -9,6 +9,7 @@ modules.define('i-bem__dom', ['BEMHTML', 'jquery'], function(provide, BEMHTML, $
 
                     BEMDOM.replace(inner, BEMHTML.apply(this.createTagSelectTemplate()));
 
+                    // In order to initialize JS on select after its dynamic creation
                     var select = this.findBlockInside('select');
                     select.findElem('inner');
                 }
